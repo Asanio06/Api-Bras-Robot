@@ -14,10 +14,29 @@ const client = mqtt.connect(connectUrl, {
 
 const topic = 'groupeLansana'
 
-const createMouve = async (bras,angle) => {
-    client.publish(topic, 'nodejs mqtt test', { qos: 0, retain: false }, (error) => {
+exports.createMouve = (req, res) => {
+    let yess = true;
+
+    // TODO: FORMATER L ANGLE
+    const {angle, doigt} = req.query
+
+    client.publish(topic, `${doigt}&${angle}`, {
+        qos: 0, retain: false
+
+    }, (error) => {
         if (error) {
+            yess = false
             console.error(error)
         }
     })
+    if (yess) {
+        return res.status(200).send({
+            message: "yes",
+        });
+    } else {
+        return res.status(400).send({
+            message: "Noooo",
+        });
+    }
+
 };
