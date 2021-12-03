@@ -3,7 +3,9 @@ const mqtt = require('mqtt')
 const host = '94.247.176.184'
 const port = '1883'
 const clientId = `mqtt_${Math.random().toString(16).slice(3)}`
+let lastDataGet={
 
+}
 const connectUrl = `mqtt://${host}:${port}`
 const client = mqtt.connect(connectUrl, {
     clientId,
@@ -12,31 +14,41 @@ const client = mqtt.connect(connectUrl, {
     reconnectPeriod: 1000,
 })
 
-const topic = 'groupeLansana'
+const topic = '5doigts'
 
 exports.createMouve = (req, res) => {
-    let yess = true;
+    let publishWork = true;
 
-    // TODO: FORMATER L ANGLE
-    const {angle, doigt} = req.query
+    // TODO: FORMATER L ANGLE et empech
+    let {angle, doigt} = req.query
 
-    client.publish(topic, `${doigt}&${angle}`, {
+    if (!angle) angle = 90;
+    if (!doigt) doigt = 0;
+    client.publish(topic, `${doigt}:${angle}`, {
         qos: 0, retain: false
 
     }, (error) => {
         if (error) {
-            yess = false
+            publishWork = false
             console.error(error)
         }
     })
-    if (yess) {
+    if (publishWork) {
         return res.status(200).send({
-            message: "yes",
+            message: "Mouvement enregistrer",
         });
     } else {
         return res.status(400).send({
-            message: "Noooo",
+            message: "Un problème est survenue",
         });
     }
 
 };
+
+exports.getPosition = () => {
+    client.subscribe([topic], () => {
+        console.log(`Subscribe to topic '${topic}'`)
+    })
+
+}
+
