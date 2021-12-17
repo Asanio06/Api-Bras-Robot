@@ -1,0 +1,1 @@
+docker run -p 3306:3306 --name brasRobotDb -v brasrobotdb:/var/lib/mysql -v "sql/":/docker-entrypoint-initdb.d   -e MYSQL_ROOT_PASSWORD=zgferdbihjerqsbjhbgr8454656455efezgfez_i -e MYSQL_DATABASE=brasRobot -e MYSQL_USER=brasRobot -e MYSQL_PASSWORD=abcdefg mysql

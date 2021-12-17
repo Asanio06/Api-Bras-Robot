@@ -21,9 +21,6 @@ client.on('message', (topicDiplayAngle, payload) => {
     console.log('Received Message:', topic, payload.toString())
     const lastDataGet = payload.toString()
 
-
-
-
 })
 exports.createMouve = (req, res) => {
 
@@ -61,6 +58,7 @@ exports.getPosition = (req,res) => {
 
     return res.status(200).send({
         lastData: "2:5:5:5:5",
+      //  lastData: lastDataGet
     });
 
 }
